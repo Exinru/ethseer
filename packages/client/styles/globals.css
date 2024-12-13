@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    /* LOADER */
+    .loader {
+        margin: 0 auto;
+        width: 52px;
+        height: 12px;
+        position: relative;
+    }
+
+    .loader .child {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        top: 0;
+    }
+
+    .loader .child:before {
+        content: '';
+        display: block;
+        width: 12px;
+        height: 12px;
+        background-color: #c9b6f8;
+        animation: loaderAnimation 1.5s infinite ease-in-out both;
+    }
+
+    .loader .child:nth-child(1) {
+        left: 0;
+    }
+
+    .loader .child:nth-child(2) {
+        left: calc(12px + (100% - 36px) / 2);
+    }
+
+    .loader .child:nth-child(3) {
+        left: calc(24px + 100% - 36px);
+    }
+
+    .loader .child:nth-child(2):before {
+        animation-delay: 0.5s;
+    }
+
+    .loader .child:nth-child(3):before {
+        animation-delay: 1s;
+    }
+
+    @keyframes loaderAnimation {
+        0%,
+        32%,
+        67%,
+        100% {
+            background-color: #c9b6f8;
+        }
+        33%,
+        66% {
+            background-color: #2d2d2d;
+        }
+    }
+
+    /* CUBE */
+    .body-cube {
+        display: flex;
+        justify-content: center;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 50px;
+    }
+    .cube {
+        transform-style: preserve-3d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: animateCube 8s linear infinite;
+    }
+    @keyframes animateCube {
+        100% {
+            transform: rotateX(360deg) rotateZ(360deg);
+        }
+    }
+
+    .cube-top,
+    .cube-bottom,
+    .cube-left,
+    .cube-right,
+    .cube-front,
+    .cube-back {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        /* background: url(/static/images/blocks.png) no-repeat center center / cover; */
+        width: 2em;
+        height: 2em;
+        position: absolute;
+        box-shadow: 0.5px 0.5px 0.5px inset #707070, -0.5px 0.5px 0.5px inset #707070, 0.5px -0.5px 0.5px inset #707070,
+            -0.5px -0.5px 0.5px inset #707070;
+    }
+
+    /* INITIAL ANIMATION */
+    .cube-front {
+        transform: translateZ(1em);
+    }
+
+    .cube-back {
+        transform: translateZ(-1em) rotateY(180deg);
+    }
+
+    .cube-top {
+        transform: translateY(-1em) rotateX(90deg);
+    }
+
+    .cube-bottom {
+        transform: translateY(1em) rotateX(90deg);
+    }
+
+    .cube-right {
+        transform: translateX(1em) rotateY(90deg);
+    }
+
+    .cube-left {
+        transform: translateX(-1em) rotateY(90deg) rotateY(180deg);
+    }
+
+    /* Naked Number Input */
+    .naked-number-input::-webkit-inner-spin-button,
+    .naked-number-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .naked-number-input {
+        -moz-appearance: textfield;
+        appearance: textfield;
+        border: none;
+    }
+
+    .naked-number-input:focus {
+        outline: none;
+    }
+
+    /* Countdown Banner */
+    .countdown-banner {
+        position: relative;
+        width: 100%;
+        background: transparent;
+        z-index: 1;
+    }
+
+    .countdown-banner::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('/static/images/banner/background_banner.webp');
+        background-size: cover;
+        background-repeat: no-repeat;
+        opacity: 0.3;
+        z-index: -1;
+    }
+}
