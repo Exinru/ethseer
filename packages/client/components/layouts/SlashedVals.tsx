@@ -127,7 +127,6 @@ const SlashedVals = ({slashedVals}: Props) => {
                                 </>
                             }
                             top='34px'
-                            polygonCenter
                             />
                         </TooltipContainer>
                     </div>
@@ -200,7 +199,6 @@ const SlashedVals = ({slashedVals}: Props) => {
                                             </>
                                         }
                                         top='34px'
-                                        polygonCenter
                                         />
                                     </TooltipContainer>
                             </div>
