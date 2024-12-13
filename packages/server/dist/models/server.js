@@ -22,6 +22,8 @@ const blocks_1 = __importDefault(require("../routes/blocks"));
 const validators_1 = __importDefault(require("../routes/validators"));
 const networks_1 = __importDefault(require("../routes/networks"));
 const transactions_1 = __importDefault(require("../routes/transactions"));
+const entitiesList_1 = __importDefault(require("../routes/entitiesList"));
+const slashedValidators_1 = __importDefault(require("../routes/slashedValidators"));
 class Server {
     constructor() {
         this.paths = {
@@ -32,6 +34,8 @@ class Server {
             validators: '/api/validators',
             networks: '/api/networks',
             transactions: '/api/transactions',
+            entitiesList: '/api/entitiesList',
+            slashedValidators: '/api/slashedValidators',
         };
         this.app = (0, express_1.default)();
         this.ip = process.env.API_LISTEN_IP || '127.0.0.1';
@@ -70,6 +74,8 @@ class Server {
         this.app.use(this.paths.validators, validators_1.default);
         this.app.use(this.paths.networks, networks_1.default);
         this.app.use(this.paths.transactions, transactions_1.default);
+        this.app.use(this.paths.entitiesList, entitiesList_1.default);
+        this.app.use(this.paths.slashedValidators, slashedValidators_1.default);
     }
     listen() {
         this.app.listen(this.port, this.ip, () => {

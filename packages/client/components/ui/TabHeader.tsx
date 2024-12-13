@@ -39,15 +39,15 @@ const TabHeader = ({ header, isSelected, onClick }: Props) => {
         }
     };
 
+    const hoverStyles = {
+        backgroundColor: isHovered && !isSelected ? 'var(--bgMainLightMode)' : getBackgroundColor(),
+        color: isHovered && !isSelected ? '' : getColor(),
+    };
+
     const handleMouseEnter = () => {
         if (isLargeView) {
             setIsHovered(true);
         }
-    };
-
-    const hoverStyles = {
-        backgroundColor: getBackgroundColor(),
-        color: isHovered && !isSelected ? '' : getColor(),
     };
 
     return (

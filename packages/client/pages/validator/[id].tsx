@@ -298,9 +298,7 @@ const ValidatorComponent = ({ id, network }: Props) => {
                         </div>
                     );
                 } else {
-                    return isLargeView ? getProposedBlocksLargeView() : getProposedBlocksSmallView();
-
-                    //return isLargeView ? getWithdrawalsLargeView() : getWithdrawalsSmallView();
+                    return isLargeView ? getWithdrawalsLargeView() : getWithdrawalsSmallView();
                 }
         }
     };
