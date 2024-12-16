@@ -16,13 +16,18 @@ export const getEpochsStatistics = async (req: Request, res: Response) => {
                         SELECT
                             f_epoch,
                             f_slot,
+                            f_num_att,
                             f_num_att_vals,
                             f_num_active_vals,
                             f_att_effective_balance_eth,
                             f_total_effective_balance_eth,
                             f_missing_source,
                             f_missing_target,
-                            f_missing_head
+                            f_missing_head,
+                            f_withdrawals_num,
+                            f_deposits_num,
+                            f_new_proposer_slashings,
+                            f_new_attester_slashings
                         FROM
                             t_epoch_metrics_summary
                         ORDER BY
@@ -110,13 +115,22 @@ export const getEpochById = async (req: Request, res: Response) => {
                         SELECT
                             f_epoch,
                             f_slot,
+                            f_num_att,
+                            f_deposits_num,
+                            f_withdrawals_num,
                             f_num_att_vals,
                             f_num_active_vals,
                             f_att_effective_balance_eth,
                             f_total_effective_balance_eth,
                             f_missing_source,
                             f_missing_target,
-                            f_missing_head
+                            f_missing_head,
+                            f_num_slashed_vals,
+                            f_num_active_vals,
+                            f_num_exited_vals,
+                            f_num_in_activation_vals,
+                            f_total_balance_eth
+
                         FROM
                             t_epoch_metrics_summary
                         WHERE
@@ -178,14 +192,25 @@ export const getSlotsByEpoch = async (req: Request, res: Response) => {
             clickhouseClient.query({
                 query: `
                         SELECT
-                            pd.f_val_idx,
-                            pd.f_proposer_slot,
-                            pd.f_proposed,
-                            pk.f_pool_name
+                            pd.f_val_idx AS f_val_idx,
+                            pd.f_proposer_slot AS f_proposer_slot,
+                            pd.f_proposed AS f_proposed,
+                            pk.f_pool_name AS f_pool_name,
+                            hd.f_block AS f_block,
+                            bm.f_attestations AS f_attestations,
+                            bm.f_sync_bits AS f_sync_bits,
+                            bm.f_deposits AS f_deposits,
+                            bm.f_attester_slashings AS f_attester_slashings,
+                            bm.f_proposer_slashings AS f_proposer_slashings,
+                            bm.f_voluntary_exits AS f_voluntary_exits
                         FROM
                             t_proposer_duties pd
                         LEFT OUTER JOIN
                             t_eth2_pubkeys pk ON pd.f_val_idx = pk.f_val_idx
+                        LEFT OUTER JOIN
+                            t_head_events hd ON CAST(pd.f_proposer_slot AS String) = CAST(hd.f_slot AS String)
+                        LEFT OUTER JOIN
+                            t_block_metrics bm ON CAST(pd.f_proposer_slot AS String) = CAST(bm.f_slot AS String)
                         WHERE
                             CAST((pd.f_proposer_slot / 32) AS UInt64) = ${id}
                         ORDER BY
@@ -209,12 +234,22 @@ export const getSlotsByEpoch = async (req: Request, res: Response) => {
 
         const slotsEpochResult: any[] = await slotsEpochResultSet.json();
         const withdrawalsResult: any[] = await withdrawalsResultSet.json();
+        const withdrawalsCounts:any[] = withdrawalsResult.reduce((acc, withdrawal) => {
+            if (!acc[withdrawal.f_slot]) {
+                acc[withdrawal.f_slot] = { count: 0 }; 
+            } 
+            acc[withdrawal.f_slot].count += 1;
+            return acc;
+        }, {});
+        const slotCount:any[] = Object.entries(withdrawalsCounts).map(([slot, data]) => ({ slot: parseInt(slot), count: data.count}));
 
         const slots = slotsEpochResult.map((slot: any) => ({
             ...slot,
             withdrawals: withdrawalsResult
                 .filter((withdrawal: any) => withdrawal.f_slot === slot.f_proposer_slot)
                 .reduce((acc: number, withdrawal: any) => acc + Number(withdrawal.f_amount), 0),
+            num_withdrawals: slotCount
+                .find(result => result.slot === slot.f_proposer_slot)?.count || 0,
         }));
 
         res.json({
