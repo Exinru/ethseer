@@ -67,21 +67,21 @@ const SearchEngine = () => {
 
     useEffect(() => {
         if (network && entities.length === 0) {
-            getEntitiesList();
+            getEntities();
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [network]);
 
-    const getEntitiesList = async () => {
+    const getEntities = async () => {
         try {
-            const response = await axiosClient.get('/api/entitiesList', {
+            const response = await axiosClient.get('/api/entities', {
                 params: {
                     network,
                 },
             });
 
-            setEntities(response.data.entityListResult.map((pool: any) => pool.f_pool_name));
+            setEntities(response.data.entities.map((pool: any) => pool.f_pool_name));
         } catch (error) {
             console.log(error);
         }
