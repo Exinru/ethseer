@@ -565,40 +565,42 @@ const ValidatorComponent = ({ id, network }: Props) => {
             title={`Validator ${id} Overview - Ethereum Beacon Chain | EthSeer.io`}
             description={`Get the latest on Validator ${id}: performance metrics, proposed blocks, and rewards on the Ethereum Beacon Chain. EthSeer.io provides comprehensive validator analytics.`}
         >
-            <Head>
-                <meta name='robots' property='noindex' />
-            </Head>
+            <div className="absolute-0 w-full h-full -z-10" style={{background: 'var(--backgroundLight2)'}}>
+                <Head>
+                    <meta name='robots' property='noindex' />
+                </Head>
 
-            <TitleWithArrows type='validator' value={id} />
+                <TitleWithArrows type='validator' value={id} />
 
-            {loadingValidator && (
-                <div className='mb-4'>
-                    <Loader />
-                </div>
-            )}
-
-            {!loadingValidator && validatorHour && (
-                <div className='flex flex-col gap-4 mx-auto w-11/12 md:w-10/12'>
-                    <div className='flex justify-end'>
-                        <ShareMenu type='validator' />
+                {loadingValidator && (
+                    <div className='mb-4'>
+                        <Loader />
                     </div>
+                )}
 
-                    {getContentValidator()}
+                {!loadingValidator && validatorHour && (
+                    <div className='flex flex-col gap-4 mx-auto w-11/12 md:w-10/12'>
+                        <div className='flex justify-end'>
+                            <ShareMenu type='validator' />
+                        </div>
 
-                    <div className='flex flex-col md:flex-row gap-4'>
-                        <TabHeader header='Blocks' isSelected={tabPageIndex === 0} onClick={() => setTabPageIndex(0)} />
-                        <TabHeader
-                            header='Withdrawals'
-                            isSelected={tabPageIndex === 1}
-                            onClick={() => setTabPageIndex(1)}
-                        />
+                        {getContentValidator()}
+
+                        <div className='flex flex-col md:flex-row gap-4'>
+                            <TabHeader header='Blocks' isSelected={tabPageIndex === 0} onClick={() => setTabPageIndex(0)} />
+                            <TabHeader
+                                header='Withdrawals'
+                                isSelected={tabPageIndex === 1}
+                                onClick={() => setTabPageIndex(1)}
+                            />
+                        </div>
+
+                        {getSelectedTab()}
                     </div>
+                )}
 
-                    {getSelectedTab()}
-                </div>
-            )}
-
-            {showInfoBox && <InfoBox text="Validator doesn't exist yet" />}
+                {showInfoBox && <InfoBox text="Validator doesn't exist yet" />}
+            </div>
         </Layout>
     );
 };
