@@ -5,6 +5,7 @@ export const getEntityList = async (req: Request, res: Response) => {
     try {
         const { network} = req.query;
         const chClient = clickhouseClients[network as string];
+
         const [entityListResultSet] = await Promise.all([
             chClient.query({
                 query: `
@@ -15,8 +16,11 @@ export const getEntityList = async (req: Request, res: Response) => {
                     `,
                 format: 'JSONEachRow',
             }),
+
         ]);
+
         const entityListResult = await entityListResultSet.json();
+
         res.json({
             entityListResult: entityListResult,
         });

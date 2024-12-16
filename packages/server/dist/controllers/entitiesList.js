@@ -27,6 +27,7 @@ const getEntityList = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             }),
         ]);
         const entityListResult = yield entityListResultSet.json();
+        console.log(entityListResult);
         res.json({
             entityListResult: entityListResult,
         });

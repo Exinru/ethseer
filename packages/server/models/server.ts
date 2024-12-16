@@ -9,8 +9,7 @@ import blocksRoutes from '../routes/blocks';
 import validatorsRoutes from '../routes/validators';
 import networksRoutes from '../routes/networks';
 import transactionsRoutes from '../routes/transactions';
-import entitiesListRoutes from '../routes/entitiesList';
-import slashedValidatorsRoutes from '../routes/slashedValidators';
+import entitiesListRoutes from '../routes/entitiesList'
 
 class Server {
 
@@ -26,7 +25,6 @@ class Server {
         networks: '/api/networks',
         transactions: '/api/transactions',
         entitiesList: '/api/entitiesList',
-        slashedValidators: '/api/slashedValidators',
     };
     private callsVerbose: boolean;
 
@@ -76,7 +74,6 @@ class Server {
         this.app.use(this.paths.networks, networksRoutes);
         this.app.use(this.paths.transactions, transactionsRoutes);
         this.app.use(this.paths.entitiesList, entitiesListRoutes);
-        this.app.use(this.paths.slashedValidators, slashedValidatorsRoutes);
     }
 
     listen() {
