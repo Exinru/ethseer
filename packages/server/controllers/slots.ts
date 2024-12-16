@@ -83,15 +83,7 @@ export const getSlots = async (req: Request, res: Response) => {
                             pd.f_val_idx AS f_val_idx,
                             pd.f_proposed AS f_proposed,
                             pk.f_pool_name AS f_pool_name,
-                            hd.f_block AS f_block,
-                            bm.f_attestations AS f_attestations,
-                            bm.f_sync_bits AS f_sync_bits,
-                            bm.f_deposits AS f_deposits,
-                            bm.f_attester_slashings AS f_attester_slashings,
-                            bm.f_proposer_slashings AS f_proposer_slashings,
-                            bm.f_voluntary_exits AS f_voluntary_exits,
-                            COALESCE(SUM(w.f_amount), 0) AS withdrawals,
-                            COALESCE(COUNT(w.f_slot), 0) AS num_withdrawals
+                            COALESCE(SUM(w.f_amount), 0) AS withdrawals
                         FROM
                             t_proposer_duties pd
                         LEFT OUTER JOIN
@@ -100,17 +92,13 @@ export const getSlots = async (req: Request, res: Response) => {
                             t_withdrawals w ON pd.f_proposer_slot = w.f_slot
                         LEFT OUTER JOIN
                             t_orphans o ON pd.f_proposer_slot = o.f_slot
-                        LEFT OUTER JOIN
-                            t_head_events hd ON CAST(pd.f_proposer_slot AS String) = CAST(hd.f_slot AS String)
-                        LEFT OUTER JOIN
-                            t_block_metrics bm ON CAST(pd.f_proposer_slot AS String) = CAST(bm.f_slot AS String)
                         CROSS JOIN
                             t_genesis g
                         LEFT OUTER JOIN
                             t_slot_client_guesses scg ON pd.f_proposer_slot = scg.f_slot
                         ${where.length > 0 ? `WHERE ${where.join(' AND ')}` : ''}
                         GROUP BY
-                            pd.f_proposer_slot, pd.f_val_idx, pd.f_proposed, pk.f_pool_name, hd.f_block, bm.f_attestations, bm.f_sync_bits, bm.f_deposits, bm.f_attester_slashings, bm.f_proposer_slashings, bm.f_voluntary_exits
+                            pd.f_proposer_slot, pd.f_val_idx, pd.f_proposed, pk.f_pool_name
                         ORDER BY
                             pd.f_proposer_slot DESC
                         LIMIT ${Number(limit)}

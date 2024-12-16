@@ -18,23 +18,29 @@ const SlashedValidators = () => {
     // Router
     const router = useRouter();
     const { network } = router.query;
+
     // States
     const [slashedVals, setSlashedVals] = useState<SlashedVal[]>([]);
     const [slashedValsCount, setSlashedValsCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [loading, setLoading] = useState(true);
     const [numRowsQuery, setNumRowsQuery] = useState(0);
+
     useEffect(() => {
         if (network && slashedVals.length === 0) {
             getSlashedVals(0, 10);
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [network]);
+
     const getSlashedVals = async (page: number, limit: number) => {
         try {
             setLoading(true);
+
             setCurrentPage(page);
             setNumRowsQuery(limit);
+
             const response = await axiosClient.get('/api/slashedValidators', {
                 params: {
                     network,
@@ -42,6 +48,7 @@ const SlashedValidators = () => {
                     limit,
                 },
             });
+
             setSlashedVals(response.data.slashedValidator);
             setSlashedValsCount(response.data.totalCount);
         } catch (error) {
@@ -50,6 +57,7 @@ const SlashedValidators = () => {
             setLoading(false);
         }
     };
+
     return (
         <Layout
             title='Slashed Validators of the Ethereum Beacon Chain - EthSeer.io'
@@ -58,9 +66,11 @@ const SlashedValidators = () => {
             canonical='https://ethseer.io/slashed_validators'
         >
             <Title>Ethereum Slashed Validators</Title>
+
             <PageDescription>
                 Slashing is a penalty imposed on validators for misconduct.
             </PageDescription>
+
             <div className='flex flex-row justify-between items-center gap-x-2 md:gap-x-8 gap-y-4 w-11/12 xl:w-10/12 mx-auto'>
                 {slashedValsCount > 0 && (
                     <Pagination
@@ -72,6 +82,7 @@ const SlashedValidators = () => {
                     />
                 )}
             </div>
+
             <SlashedVals slashedVals={slashedVals}/>
         </Layout>
     );
