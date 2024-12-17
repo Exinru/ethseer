@@ -11,6 +11,7 @@ import networksRoutes from '../routes/networks';
 import transactionsRoutes from '../routes/transactions';
 import slashedValidatorsRoutes from '../routes/slashedValidators';
 
+
 class Server {
 
     private app: Application;

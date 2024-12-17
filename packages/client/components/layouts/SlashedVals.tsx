@@ -91,7 +91,6 @@ const SlashedVals = ({slashedVals}: Props) => {
 
             {slashedVals.map(slashedVals => (
                 <LargeTableRow key={slashedVals.f_slashed_validator_index}>
-
                     <div className='w-[20%] flex justify-center items-center gap-3'>
                         <div className=' md:hover:underline underline-offset-4 decoration-2 text-[var(--darkPurple)] dark:text-[var(--purple)]'>
                             <LinkValidator validator={slashedVals.f_slashed_validator_index} mxAuto />
