@@ -329,8 +329,26 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
             />
 
             <LargeTableHeader
-                text='Blocks'
+                text='Attestations'
                 width='15%'
+                tooltipContent={<TooltipResponsive width={220} content={<span>Number of attestations included in blocks in the epochs</span>} top='34px' />}
+            />
+
+            <LargeTableHeader
+                text='Deposits/Withdrawals'
+                width='25%'
+                tooltipContent={<TooltipResponsive width={200} content={<span>Number of eth2 deposits and withdrawals included in the epoch</span>} top='34px' />}
+            />
+
+            <LargeTableHeader
+                text='Slashing P / A'
+                width='19%'
+                tooltipContent={<TooltipResponsive width={200} content={<span>Number of new proposer and attester slashings included in the epoch</span>} top='34px' />}
+            />
+
+            <LargeTableHeader
+                text='Blocks'
+                width='11%'
                 tooltipContent={
                     <TooltipResponsive
                         width={220}
@@ -348,7 +366,7 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
 
             <LargeTableHeader
                 text='Attestation Accuracy'
-                width='32%'
+                width='34%'
                 tooltipContent={
                     <TooltipResponsive
                         width={240}
@@ -366,7 +384,7 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
 
             <LargeTableHeader
                 text='Voting Participation'
-                width='32%'
+                width='22%'
                 tooltipContent={
                     <TooltipResponsive
                         width={180}
@@ -401,9 +419,20 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
                         <LinkEpoch epoch={epoch.f_epoch} mxAuto />
                     </div>
 
-                    <div className='w-[15%] pt-3.5 mb-5'>
-                        <p className='uppercase text-center'>Blocks</p>
+                    <div className='w-[15%] flex flex-col text-center'>
+                        <p>{epoch?.f_num_att}</p>
+                    </div>
 
+                    <div className='w-[25%] flex flex-col text-center'>
+                        <p>{epoch?.f_deposits_num}/{epoch?.f_withdrawals_num}</p>
+                    </div>
+
+                    <div className='w-[18%] flex flex-col text-center'>
+                        <p>{epoch?.f_new_proposer_slashings}/{epoch?.f_new_attester_slashings}</p>
+                    </div>
+
+                    <div className='w-[14%] pt-3.5 mb-5 m-1'>
+                        <p className='uppercase text-center mb-2'>Blocks</p>
                         <ProgressTileBar
                             totalBlocks={epoch.proposed_blocks}
                             tooltipContent={
@@ -416,7 +445,7 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
                         />
                     </div>
 
-                    <div className='w-[32%] mb-2'>
+                    <div className='w-[32%] m-2'>
                         <div className='flex gap-x-1 justify-center'>
                             <div className='flex-1'>
                                 <ProgressSmoothBar
@@ -428,7 +457,7 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
                                     tooltipContent={
                                         <>
                                             <span>Missing Source: {epoch.f_missing_source?.toLocaleString()}</span>
-                                            <span>Attestations: {epoch.f_num_active_vals?.toLocaleString()}</span>
+                                            <span>Attestating Validators: {epoch.f_num_active_vals?.toLocaleString()}</span>
                                         </>
                                     }
                                     widthTooltip={220}
@@ -446,7 +475,7 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
                                     tooltipContent={
                                         <>
                                             <span>Missing Target: {epoch.f_missing_target?.toLocaleString()}</span>
-                                            <span>Attestations: {epoch.f_num_active_vals?.toLocaleString()}</span>
+                                            <span>Attestasting Validators: {epoch.f_num_active_vals?.toLocaleString()}</span>
                                         </>
                                     }
                                     widthTooltip={220}
@@ -464,7 +493,7 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
                                     tooltipContent={
                                         <>
                                             <span>Missing Head: {epoch.f_missing_head?.toLocaleString()}</span>
-                                            <span>Attestations: {epoch.f_num_active_vals?.toLocaleString()}</span>
+                                            <span>Attesting Validators: {epoch.f_num_active_vals?.toLocaleString()}</span>
                                         </>
                                     }
                                     widthTooltip={220}
@@ -474,7 +503,7 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
                         </div>
                     </div>
 
-                    <div className='w-[32%] mb-2'>
+                    <div className='w-[20%] m-2'>
                         <ProgressSmoothBar
                             title='Attesting/Total active'
                             color='#343434'
@@ -620,7 +649,7 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
                             tooltipContent={
                                 <>
                                     <span>Missing Source: {epoch.f_missing_source?.toLocaleString()}</span>
-                                    <span>Attestations: {epoch.f_num_active_vals?.toLocaleString()}</span>
+                                    <span>Attesting Validators: {epoch.f_num_active_vals?.toLocaleString()}</span>
                                 </>
                             }
                             widthTooltip={220}
@@ -635,7 +664,7 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
                             tooltipContent={
                                 <>
                                     <span>Missing Target: {epoch.f_missing_target?.toLocaleString()}</span>
-                                    <span>Attestations: {epoch.f_num_active_vals?.toLocaleString()}</span>
+                                    <span>Attesting Validators: {epoch.f_num_active_vals?.toLocaleString()}</span>
                                 </>
                             }
                             widthTooltip={220}
@@ -650,7 +679,7 @@ const Epochs = ({ epochs, blocksPerEpoch, showCalculatingEpochs, fetchingEpochs,
                             tooltipContent={
                                 <>
                                     <span>Missing Head: {epoch.f_missing_head?.toLocaleString()}</span>
-                                    <span>Attestations: {epoch.f_num_active_vals?.toLocaleString()}</span>
+                                    <span>Attesting Validators: {epoch.f_num_active_vals?.toLocaleString()}</span>
                                 </>
                             }
                             widthTooltip={220}

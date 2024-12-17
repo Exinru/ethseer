@@ -10,6 +10,7 @@ import validatorsRoutes from '../routes/validators';
 import networksRoutes from '../routes/networks';
 import transactionsRoutes from '../routes/transactions';
 import entitiesListRoutes from '../routes/entitiesList'
+import slashedValidatorsRoutes from '../routes/slashedValidators';
 
 class Server {
 

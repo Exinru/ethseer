@@ -147,12 +147,53 @@ const Slots = ({ slots, fetchingSlots }: Props) => {
                                     </p>
                                 </div>
                             </div>
+                            <div className='flex items-center justify-between'>
+                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
+                                    Root Hash:
+                                </p>
+                                <p>{(slot.f_block) ? getShortAddress(slot.f_block) : "N/A"}</p>
+                            </div>
+
+                            <div className='flex items-center justify-between'>
+                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
+                                    Attestations:
+                                </p>
+                                <p>{slot.f_attestations}</p>
+                            </div>
+
+                            <div className='flex items-center justify-between'>
+                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
+                                    Sync Agg %:
+                                </p>
+                                <p>{(slot.f_sync_bits * 100 / 512).toFixed(2)}%</p>
+                            </div>
+
+                            <div className='flex items-center justify-between'>
+                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
+                                    Deposits:
+                                </p>
+                                <p>{slot.f_deposits}</p>
+                            </div>
+
+                            <div className='flex items-center justify-between'>
+                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
+                                    Slashing P / A:
+                                </p>
+                                <p>{slot.f_proposer_slashings}/{slot.f_attester_slashings}</p>
+                            </div>
+
+                            <div className='flex items-center justify-between'>
+                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
+                                    Exits:
+                                </p>
+                                <p>{slot.f_voluntary_exits}</p>
+                            </div>
 
                             <div className='flex items-center justify-between'>
                                 <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
                                     Withdrawals:
                                 </p>
-                                <p>{(slot.withdrawals / 10 ** 9).toLocaleString()} ETH</p>
+                            <p>{slot.num_withdrawals} ({(slot.withdrawals / 10 ** 9).toLocaleString()} ETH)</p>
                             </div>
                         </div>
                     </div>
