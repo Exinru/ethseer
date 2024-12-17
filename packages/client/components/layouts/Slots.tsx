@@ -63,11 +63,16 @@ const Slots = ({ slots, fetchingSlots }: Props) => {
             <LargeTableHeader text='Entity' width='28%' />
             <LargeTableHeader text='Proposer' width='15%' />
             <LargeTableHeader text='Slot' width='15%' />
+            <LargeTableHeader text='Block' width='17%' />
+            <LargeTableHeader text='Entity' width='28%' />
+            <LargeTableHeader text='Proposer' width='15%' />
+            <LargeTableHeader text='Slot' width='15%' />
             <LargeTableHeader text='Time' width='10%' />
             <LargeTableHeader text='Withdrawals' width='15%' />
 
             {slots.map(slot => (
                 <LargeTableRow key={slot.f_proposer_slot}>
+                    <div className='w-[17%] flex items-center justify-center'>
                     <div className='w-[17%] flex items-center justify-center'>
                         <BlockState
                             poolName={slot.f_pool_name}
@@ -79,13 +84,16 @@ const Slots = ({ slots, fetchingSlots }: Props) => {
                     </div>
 
                     <div className='w-[28%] uppercase md:hover:underline underline-offset-4 decoration-2 text-[var(--darkPurple)] dark:text-[var(--purple)]'>
+                    <div className='w-[28%] uppercase md:hover:underline underline-offset-4 decoration-2 text-[var(--darkPurple)] dark:text-[var(--purple)]'>
                         <LinkEntity entity={slot.f_pool_name} mxAuto />
                     </div>
 
                     <div className='w-[15%] md:hover:underline underline-offset-4 decoration-2 text-[var(--darkPurple)] dark:text-[var(--purple)]'>
+                    <div className='w-[15%] md:hover:underline underline-offset-4 decoration-2 text-[var(--darkPurple)] dark:text-[var(--purple)]'>
                         <LinkValidator validator={slot.f_val_idx} mxAuto />
                     </div>
 
+                    <div className='w-[15%] md:hover:underline underline-offset-4 decoration-2 text-[var(--darkPurple)] dark:text-[var(--purple)]'>
                     <div className='w-[15%] md:hover:underline underline-offset-4 decoration-2 text-[var(--darkPurple)] dark:text-[var(--purple)]'>
                         <LinkSlot slot={slot.f_proposer_slot} mxAuto />
                     </div>
@@ -99,6 +107,7 @@ const Slots = ({ slots, fetchingSlots }: Props) => {
                         </span>
                     </div>
 
+                    <p className='w-[15%] text-center'>{(slot.withdrawals / 10 ** 9).toLocaleString()} ETH</p>
                     <p className='w-[15%] text-center'>{(slot.withdrawals / 10 ** 9).toLocaleString()} ETH</p>
                 </LargeTableRow>
             ))}
@@ -149,51 +158,9 @@ const Slots = ({ slots, fetchingSlots }: Props) => {
                             </div>
                             <div className='flex items-center justify-between'>
                                 <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
-                                    Root Hash:
-                                </p>
-                                <p>{(slot.f_block) ? getShortAddress(slot.f_block) : "N/A"}</p>
-                            </div>
-
-                            <div className='flex items-center justify-between'>
-                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
-                                    Attestations:
-                                </p>
-                                <p>{slot.f_attestations}</p>
-                            </div>
-
-                            <div className='flex items-center justify-between'>
-                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
-                                    Sync Agg %:
-                                </p>
-                                <p>{(slot.f_sync_bits * 100 / 512).toFixed(2)}%</p>
-                            </div>
-
-                            <div className='flex items-center justify-between'>
-                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
-                                    Deposits:
-                                </p>
-                                <p>{slot.f_deposits}</p>
-                            </div>
-
-                            <div className='flex items-center justify-between'>
-                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
-                                    Slashing P / A:
-                                </p>
-                                <p>{slot.f_proposer_slashings}/{slot.f_attester_slashings}</p>
-                            </div>
-
-                            <div className='flex items-center justify-between'>
-                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
-                                    Exits:
-                                </p>
-                                <p>{slot.f_voluntary_exits}</p>
-                            </div>
-
-                            <div className='flex items-center justify-between'>
-                                <p className='font-semibold text-[var(--darkGray)] dark:text-[var(--white)]'>
                                     Withdrawals:
                                 </p>
-                            <p>{slot.num_withdrawals} ({(slot.withdrawals / 10 ** 9).toLocaleString()} ETH)</p>
+                                <p>{(slot.withdrawals / 10 ** 9).toLocaleString()} ETH</p>
                             </div>
                         </div>
                     </div>
@@ -206,3 +173,4 @@ const Slots = ({ slots, fetchingSlots }: Props) => {
 };
 
 export default Slots;
+
